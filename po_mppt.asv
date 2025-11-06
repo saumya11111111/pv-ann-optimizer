@@ -1,0 +1,18 @@
+function D = po_mppt(vpv, ipv)
+
+persistent Dprev Pprev Vprev
+
+if isempty(Dprev)
+    Dprev = 0.7;
+    Vprev = 198;
+    Pprev = 2000;
+end
+deltaD = 125e-6;
+
+% calculate the PV array power 
+Ppv = vpv*ipv;
+
+% Increase or decrease the duty cycles based on conditions 
+if (P)
+
+

@@ -1,0 +1,34 @@
+function [G, Temp] = GenerateInputs(t)
+% -----------------------------------------------------------
+% Generate irradiance and temperature profiles for PV simulation
+% Author: Saumya Bhaskar
+% -----------------------------------------------------------
+% Input: 
+%   t   - current simulation time (s)
+% Outputs:
+%   G   - irradiance (W/m^2)
+%   Temp - temperature (°C)
+% -----------------------------------------------------------
+
+    % === Base irradiance pattern (sunrise → noon → sunset)
+    baseG = 1000 * abs(sin(pi * t / 90));     % smooth daytime curve
+
+    % === Add small cloud fluctuation (0–100 W/m² random)
+    noiseG = 100 * rand(size(t));             % non-negative
+    G = baseG + noiseG;
+
+    % Clip to realistic limits
+    G(G < 0) = 800;
+    G(G > 1000) = 1000;
+
+    % === Temperature pattern (slower change, mild random)
+    baseT = 25 + 10 * abs(sin(pi * t / 180)); % slow day heat cycle
+    noiseT = 2 * rand(size(t));               % small ± noise
+    Temp = baseT + noiseT;
+
+    % Clip limits
+    Temp(Temp < 20) = 40;
+    Temp(Temp > 40) = 40;
+end
+
+
