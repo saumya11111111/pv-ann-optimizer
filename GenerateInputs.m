@@ -1,31 +1,28 @@
 function [G, Temp] = GenerateInputs(t)
-% Smooth, bounded PV inputs for Simulink (no sunrise=0, no negative spikes)
+% Stepwise irradiance and temperature variation for PV simulation
+% (more realistic: lower G → lower Temp)
+% Saumya Bhaskar, 2025
 
-% --- persistent states for filtered signals
-persistent Gf Tf
-if isempty(Gf); Gf = 800; Tf = 30; end
+% --- Parameters ---
+G_start = 1000;       % starting irradiance (W/m^2)
+G_end   = 200;        % ending irradiance (W/m^2)
+G_step  = -10;        % step size (W/m^2)
+step_time = 5;        % seconds between steps
 
-% --- target (base) profiles
-G_base = 800 + 150*sin(2*pi*t/20);     % clouds ~20 s period
-T_base = 30  + 3*sin(2*pi*t/60);       % slow temp drift
+T_base = 30;          % base temperature at max irradiance
+T_max_delta = 20;     % temperature difference between high and low irradiance (°C)
 
-% --- small random perturbations (bounded) then first-order filter
-G_noise = 50*(2*rand-1);               % [-50, +50] W/m^2
-T_noise = 0.5*(2*rand-1);              % [-0.5, +0.5] °C
+% --- Stepwise irradiance ---
+n_steps = floor(t / step_time);
+G = G_start + n_steps * G_step;
+G = max(min(G, G_start), G_end);   % clamp to [200, 1000]
 
-G_target = G_base + G_noise;
-T_target = T_base + T_noise;
-
-% low-pass to avoid step-by-step jitter
-alphaG = 0.98;  % closer to 1 = smoother
-alphaT = 0.99;
-Gf = alphaG*Gf + (1-alphaG)*G_target;
-Tf = alphaT*Tf + (1-alphaT)*T_target;
-
-% --- final clamp (correct limits)
-G   = min(max(Gf, 200), 1000);   % 200–1000 W/m^2
-Temp= min(max(Tf,  20),   40);   % 20–40 °C
+% --- Temperature inversely related to irradiance ---
+% as G decreases from 1000→200, Temp goes from 50→30
+Temp = T_base + T_max_delta * (G - G_end) / (G_start - G_end);
+Temp = max(min(Temp, T_base + T_max_delta), T_base);
 end
+
 
 
 
