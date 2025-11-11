@@ -21,6 +21,10 @@ G = max(min(G, G_start), G_end);   % clamp to [200, 1000]
 % as G decreases from 1000→200, Temp goes from 50→30
 Temp = T_base + T_max_delta * (G - G_end) / (G_start - G_end);
 Temp = max(min(Temp, T_base + T_max_delta), T_base);
+
+%clamping to get positive/ non-negative values
+G = max(G, 0);
+Temp = max(Temp, 0);
 end
 
 
