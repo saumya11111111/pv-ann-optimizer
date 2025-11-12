@@ -25,8 +25,12 @@ Temp = max(min(Temp, T_base + T_max_delta), T_base);
 %clamping to get positive/ non-negative values
 G = max(G, 0);
 Temp = max(Temp, 0);
+<<<<<<< HEAD
 end
 
 
 
 
+=======
+end
+>>>>>>> 0791f3859e6d20a06fa054b3822f9f2c118c764f
