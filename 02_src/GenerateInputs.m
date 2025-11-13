@@ -7,7 +7,7 @@ function [G, Temp] = GenerateInputs(t)
 G_start = 1000;       % starting irradiance (W/m^2)
 G_end   = 200;        % ending irradiance (W/m^2)
 G_step  = -10;        % step size (W/m^2)
-step_time = 5;        % seconds between steps
+step_time = 0.5;        % seconds between steps
 
 T_base = 30;          % base temperature at max irradiance
 T_max_delta = 20;     % temperature difference between high and low irradiance (°C)
