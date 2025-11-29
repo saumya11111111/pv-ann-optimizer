@@ -1,0 +1,59 @@
+function mppTable = ExtractMPP()
+% Extract Vmpp, Impp, Pmpp from logged Simulink data "out"
+
+% Get 'out' from base workspace (from Simulink)
+out = evalin('base','out');
+
+t   = out.time(:);
+G   = out.irradiance(:);
+T   = out.temperature(:);
+vpv = out.vpv(:);
+ipv = out.ipv(:);
+
+if isfield(out, 'Ppv')
+    Ppv = out.Ppv(:);
+else
+    Ppv = vpv .* ipv;
+end
+
+% --- 1) Find segments where (G, T) are constant --------------------------
+changeIdx = [1; find(diff(G) ~= 0 | diff(T) ~= 0) + 1; numel(G) + 1];
+nSeg = numel(changeIdx) - 1;
+
+G_mpp = zeros(nSeg,1);
+T_mpp = zeros(nSeg,1);
+Vmpp  = zeros(nSeg,1);
+Impp  = zeros(nSeg,1);
+Pmpp  = zeros(nSeg,1);
+
+for k = 1:nSeg
+    i1 = changeIdx(k);
+    i2 = changeIdx(k+1) - 1;
+
+    idxSeg = i1:i2;
+
+    % Ignore initial transient → use last 20% of samples
+    n = numel(idxSeg);
+    if n < 5
+        steadyIdx = idxSeg;
+    else
+        steadyIdx = idxSeg(round(0.8*n):n);
+    end
+
+    [Pmpp(k), relIdx] = max(Ppv(steadyIdx));
+    idxMPP = steadyIdx(relIdx);
+
+    Vmpp(k)  = vpv(idxMPP);
+    Impp(k)  = ipv(idxMPP);
+    G_mpp(k) = G(idxMPP);
+    T_mpp(k) = T(idxMPP);
+end
+
+mppTable = table(G_mpp, T_mpp, Vmpp, Impp, Pmpp, ...
+    'VariableNames', {'G','Temp','Vmpp','Impp','Pmpp'});
+
+
+end
+
+  
+
