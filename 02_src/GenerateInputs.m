@@ -62,7 +62,7 @@ if settled
     if iPair < size(pairList,1)
         iPair = iPair + 1;
         lastChangeTime = t;
-        stableCount = 0;s
+        stableCount = 0;
     end
 end
 
