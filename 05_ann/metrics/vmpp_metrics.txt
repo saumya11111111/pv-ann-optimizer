@@ -1,0 +1,50 @@
+
+==============================
+Run timestamp: 2025-12-24 01:50:38.184595
+
+MSE: 0.0656
+RMSE: 0.2561
+MAE: 0.2017
+R2: 0.2683
+
+Notes:
+Final test set evaluation (unseen data)
+The model is clearly underfitting the data.
+==============================
+
+==============================
+Run timestamp: 2025-12-24 01:59:22.471240
+
+MSE: 0.0439
+RMSE: 0.2096
+MAE: 0.1515
+R2: 0.5102
+
+Notes:
+Final test set evaluation (unseen data)
+R2 improved after increasing the model size
+==============================
+
+==============================
+Run timestamp: 2025-12-24 02:27:54.532088
+
+MSE: 0.0280
+RMSE: 0.1673
+MAE: 0.1050
+R2: 0.6879
+
+Notes:
+Final test set evaluation (unseen data)
+==============================
+
+==============================
+Run timestamp: 2025-12-24 02:43:42.496544
+
+MSE: 0.0266
+RMSE: 0.1632
+MAE: 0.0999
+R2: 0.7030
+
+Notes:
+Final test set evaluation (unseen data)
+==============================

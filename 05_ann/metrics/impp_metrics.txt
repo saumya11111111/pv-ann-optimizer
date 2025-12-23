@@ -1,0 +1,37 @@
+
+==============================
+Run timestamp: 2025-12-24 02:04:06.742573
+
+MSE: 43.6309
+RMSE: 6.6054
+MAE: 4.9212
+R2: 0.2352
+
+Notes:
+Final test set evaluation (unseen data)
+Shows that Impp is much more sensitive to variance in G and dominates power variabilty.
+==============================
+
+==============================
+Run timestamp: 2025-12-24 02:31:39.070801
+
+MSE: 39.5620
+RMSE: 6.2898
+MAE: 4.5465
+R2: 0.3065
+
+Notes:
+Final test set evaluation (unseen data)
+==============================
+
+==============================
+Run timestamp: 2025-12-24 02:42:12.011215
+
+MSE: 14.6798
+RMSE: 3.8314
+MAE: 2.3374
+R2: 0.7427
+
+Notes:
+Final test set evaluation (unseen data)
+==============================

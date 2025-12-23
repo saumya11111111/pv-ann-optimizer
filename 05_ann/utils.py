@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
+
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
@@ -9,6 +9,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+from datetime import datetime
 
 REQUIRED_COLS = ['G', 'Temp', 'Vmpp', 'Impp', 'Pmpp']
 
@@ -25,6 +26,26 @@ def load_data(csv_path: str) -> pd.DataFrame:
 
     return df
 
+def prepare_X_y_vmpp(df: pd.DataFrame):
+    """
+    Inputs  : Irradiance (G), Temperature (Temp)
+    Target  : Vmpp
+    """
+    X = df[['G', 'Temp']].values
+    y = df['Vmpp'].values.reshape(-1, 1)
+    return X, y
+
+
+def prepare_X_y_impp(df: pd.DataFrame):
+    """
+    Inputs  : Irradiance (G), Temperature (Temp)
+    Target  : Impp
+    """
+    X = df[['G', 'Temp']].values
+    y = df['Impp'].values.reshape(-1, 1)
+    return X, y
+
+
 
 def prepare_X_y(df: pd.DataFrame):
     """
@@ -37,51 +58,33 @@ def prepare_X_y(df: pd.DataFrame):
     return X, y
 
 
-def train_test_scale(
-    X,
-    y,
-    test_size: float = 0.2,
-    random_state: int = 42
-):
-    """
-    Train–test split + MinMax scaling for X and y.
-
-    Returns:
-        X_train_scaled, X_test_scaled,
-        y_train_scaled, y_test_scaled,
-        scaler_X, scaler_y
-    """
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=random_state
-    )
-
+def scale_data(X_train, X_val, X_test, y_train, y_val, y_test):
     scaler_X = MinMaxScaler()
     scaler_y = MinMaxScaler()
 
-    X_train_scaled = scaler_X.fit_transform(X_train)
-    X_test_scaled = scaler_X.transform(X_test)
+    X_train = scaler_X.fit_transform(X_train)
+    X_val = scaler_X.transform(X_val)
+    X_test = scaler_X.transform(X_test)
 
-    y_train_scaled = scaler_y.fit_transform(y_train)
-    y_test_scaled = scaler_y.transform(y_test)
+    y_train = scaler_y.fit_transform(y_train)
+    y_val = scaler_y.transform(y_val)
+    y_test = scaler_y.transform(y_test)
 
     return (
-        X_train_scaled,
-        X_test_scaled,
-        y_train_scaled,
-        y_test_scaled,
-        scaler_X,
-        scaler_y,
+        X_train, X_val, X_test,
+        y_train, y_val, y_test,
+        scaler_X, scaler_y
     )
 
 
-def build_model(input_dim: int = 4, learning_rate: float = 0.001):
+def build_model(input_dim: int, learning_rate: float = 0.001):
     """
     Build and compile a simple ANN for Pmpp regression.
     """
     model = keras.Sequential([
         layers.Input(shape=(input_dim,)),
-        layers.Dense(8, activation='relu'),
-        layers.Dense(4, activation='relu'),
+        layers.Dense(32, activation='relu'),
+        layers.Dense(16, activation='relu'),
         layers.Dense(1, activation='linear')  # Pmpp (regression)
     ])
 
@@ -111,3 +114,20 @@ def evaluate_regression(y_true, y_pred) -> dict:
         "mae": mae,
         "r2": r2,
     }
+
+
+def append_metrics(filepath, metrics_dict, notes=None):
+    with open(filepath, "a") as f:
+        f.write("\n" + "="*30 + "\n")
+        f.write(f"Run timestamp: {datetime.now()}\n\n")
+
+        for key, value in metrics_dict.items():
+            f.write(f"{key}: {value}\n")
+
+        if notes:
+            f.write("\nNotes:\n")
+            f.write(notes + "\n")
+
+        f.write("="*30 + "\n")
+
+

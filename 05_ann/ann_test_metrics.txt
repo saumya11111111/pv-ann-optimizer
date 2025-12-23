@@ -1,5 +1,0 @@
-=== ANN Test Metrics ===
-MSE  : 4.7647
-RMSE : 2.1828
-MAE  : 1.2486
-R²   : 0.9999

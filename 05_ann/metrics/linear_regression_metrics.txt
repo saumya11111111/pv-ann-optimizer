@@ -1,0 +1,12 @@
+
+==============================
+Run timestamp: 2025-12-24 01:08:57.385207
+
+MSE: 0.7327
+RMSE: 0.8560
+MAE: 0.6660
+R2: 1.0000
+
+Notes:
+Linear regression baseline (same split & scaling as ANN)
+==============================
