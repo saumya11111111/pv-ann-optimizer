@@ -146,6 +146,7 @@ Explainability techniques are used to understand model behavior and failure mode
 
 ## Repository Structure
 
+````text
 pv-mpp-regression/
 ├── 01_models/
 │ ├── backup/
@@ -200,7 +201,7 @@ pip install -r requirements.txt
 
 2. Run train_vmpp.py, train_impp.py and then compute_pmpp.py
 
-```
+````
 
 A detailed methodological explanation and analysis is available in:
 
