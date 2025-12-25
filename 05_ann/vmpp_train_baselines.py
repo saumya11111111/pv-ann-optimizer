@@ -8,7 +8,7 @@ print("Running from:", os.getcwd())
 
 from utils import (
     load_data,
-    prepare_X_y,
+    prepare_X_y_vmpp,
     scale_data,
     evaluate_regression,
     append_metrics,
@@ -26,8 +26,8 @@ def plot_actual_vs_pred(y_true, y_pred, title, save_path):
     min_val = min(y_true.min(), y_pred.min())
     max_val = max(y_true.max(), y_pred.max())
     plt.plot([min_val, max_val], [min_val, max_val], "r--")
-    plt.xlabel("Actual Pmpp (W)")
-    plt.ylabel("Predicted Pmpp (W)")
+    plt.xlabel("Actual Vmpp (V)")
+    plt.ylabel("Predicted Vmpp (V)")
     plt.title(title)
     plt.tight_layout()
     plt.savefig(save_path)
@@ -41,7 +41,7 @@ def main():
     df = load_data(DATA_PATH)
 
     # 2. Prepare X, y
-    X, y = prepare_X_y(df)
+    X, y = prepare_X_y_vmpp(df)
 
     # 3. Explicit Train / Validation / Test split (70 / 15 / 15)
     X_temp, X_test, y_temp, y_test = train_test_split(
@@ -92,19 +92,19 @@ def main():
     plot_actual_vs_pred(
         y_test_orig,
         y_test_pred,
-        "Linear Regression: Actual vs Predicted (Test Set)",
-        "06_graphs/linear_regression_actual_vs_pred.png"
+        "Linear Regression: Actual vs Predicted Vmpp (Test Set)",
+        "06_graphs/vmpp_linear_regression_actual_vs_pred.png"
     )
 
     append_metrics(
-        filepath="05_ann/metrics/linear_regression_metrics.txt",
+        filepath="05_ann/metrics/vmpp_linear_regression_metrics.txt",
         metrics_dict={
             "MSE":  f"{lin_metrics['mse']:.4f}",
             "RMSE": f"{lin_metrics['rmse']:.4f}",
             "MAE":  f"{lin_metrics['mae']:.4f}",
             "R2":   f"{lin_metrics['r2']:.4f}",
         },
-        notes="Linear regression baseline (same split & scaling as ANN)"
+        notes="Linear regression baseline for vmpp(same split & scaling as ANN)"
     )
 
     # ==================================================
@@ -127,19 +127,19 @@ def main():
     plot_actual_vs_pred(
         y_test_orig,
         y_test_pred,
-        "Ridge Regression: Actual vs Predicted (Test Set)",
-        "06_graphs/ridge_regression_actual_vs_pred.png"
+        "Ridge Regression: Actual vs Predicted Vmpp (Test Set)",
+        "06_graphs/vmpp_ridge_regression_actual_vs_pred.png"
     )
 
     append_metrics(
-        filepath="05_ann/metrics/ridge_regression_metrics.txt",
+        filepath="05_ann/metrics/vmpp_ridge_regression_metrics.txt",
         metrics_dict={
             "MSE":  f"{ridge_metrics['mse']:.4f}",
             "RMSE": f"{ridge_metrics['rmse']:.4f}",
             "MAE":  f"{ridge_metrics['mae']:.4f}",
             "R2":   f"{ridge_metrics['r2']:.4f}",
         },
-        notes=f"Ridge regression baseline (alpha={RIDGE_ALPHA})"
+        notes=f"Ridge regression baseline for Vmpp (alpha={RIDGE_ALPHA})"
     )
 
 

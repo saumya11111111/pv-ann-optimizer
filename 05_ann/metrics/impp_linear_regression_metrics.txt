@@ -1,0 +1,12 @@
+
+==============================
+Run timestamp: 2025-12-25 16:20:28.253851
+
+MSE: 55.8552
+RMSE: 7.4736
+MAE: 6.2449
+R2: 0.0209
+
+Notes:
+Linear regression baseline for impp(same split & scaling as ANN)
+==============================

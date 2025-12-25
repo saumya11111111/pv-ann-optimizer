@@ -1,0 +1,12 @@
+
+==============================
+Run timestamp: 2025-12-25 16:26:50.137629
+
+MSE: 51251.9718
+RMSE: 226.3890
+MAE: 189.1713
+R2: 0.0247
+
+Notes:
+Pmpp computed from Linear Regression Vmpp × Impp
+==============================

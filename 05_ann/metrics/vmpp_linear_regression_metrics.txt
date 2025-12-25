@@ -1,0 +1,12 @@
+
+==============================
+Run timestamp: 2025-12-25 15:44:52.313829
+
+MSE: 0.0710
+RMSE: 0.2664
+MAE: 0.2082
+R2: 0.2086
+
+Notes:
+Linear regression baseline for vmpp(same split & scaling as ANN)
+==============================
