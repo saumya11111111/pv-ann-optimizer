@@ -22,3 +22,15 @@ R2: 0.7430
 Notes:
 Pmpp computed from predicted Vmpp × Impp (test set)
 ==============================
+
+==============================
+Run timestamp: 2025-12-25 16:36:40.909447
+
+MSE: 13504.9617
+RMSE: 116.2109
+MAE: 70.7462
+R2: 0.7430
+
+Notes:
+Pmpp computed from predicted Vmpp × Impp (test set)
+==============================
